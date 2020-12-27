@@ -1,6 +1,6 @@
 #include "PID.h"
 
-PID(const DOUBLE& _kp, const DOUBLE& _ki = 0, const DOUBLE& _kd = 0)
+PID::PID(const DOUBLE& _kp, const DOUBLE& _ki , const DOUBLE& _kd )
 {
 	#if DOUBLE == Double
 	Double::setMultiplier(10000);
@@ -10,123 +10,123 @@ PID(const DOUBLE& _kp, const DOUBLE& _ki = 0, const DOUBLE& _kd = 0)
 	kd=_kd;
 }
 
-DOUBLE getKp() const
+DOUBLE PID::getKp() const
 {
 	return kp;
 }
 
-DOUBLE getKi() const
+DOUBLE PID::getKi() const
 {
 	return ki;
 }
 
-DOUBLE getKd() const
+DOUBLE PID::getKd() const
 {
 	return kd;
 }
 
-DOUBLE getErr() const
+DOUBLE PID::getErr() const
 {
 	return err;
 }
 
-DOUBLE getI() const
+DOUBLE PID::getI() const
 {
 	return i;
 }
 
-DOUBLE getDesVal() const
+DOUBLE PID::getDesVal() const
 {
 	return desVal;
 }
 
-DOUBLE getActVal() const
+DOUBLE PID::getActVal() const
 {
 	return actVal;
 }
 
-unsigned int getDivision() const
+unsigned int PID::getDivision() const
 {
 	return division;
 }
 
-bool setKp(const DOUBLE& _kp)
+bool PID::setKp(const DOUBLE& _kp)
 {
 	kp=_kp;
 	return true;
 }
 
-bool setKi(const DOUBLE& _ki)
+bool PID::setKi(const DOUBLE& _ki)
 {
 	ki=_ki;
 	return true;
 }
 
-bool setKd(const DOUBLE& _kd)
+bool PID::setKd(const DOUBLE& _kd)
 {
 	kd=_kd;
 	return true;
 }
 
-bool setErr(const DOUBLE& _err)
+bool PID::setErr(const DOUBLE& _err)
 {
 	err=_err;
 	return true;
 }
 
-bool setI(const DOUBLE& _i)
+bool PID::setI(const DOUBLE& _i)
 {
 	i=_i;
 	return true;
 }
 
-bool setDesVal(const DOUBLE& _desVal)
+bool PID::setDesVal(const DOUBLE& _desVal)
 {
 	desVal=_desVal;
 	return true;
 }
 
-bool setActVal(const DOUBLE& _actVal)
+bool PID::setActVal(const DOUBLE& _actVal)
 {
-	sctVal=_actVal;
+	actVal=_actVal;
 	return true;
 }
 
-bool setDivision(const unsigned int& _division)
+bool PID::setDivision(const unsigned int& _division)
 {
 	division=_division;
 	return true;
 }
 
-bool resetErr()
+bool PID::resetErr()
 {
 	err=0;
 	return true;
 }
 
-bool resetI()
+bool PID::resetI()
 {
 	i=0;
 	return true;
 }
 
-DOUBLE generatePWM()
+DOUBLE PID::generatePWM()
 {
 	return err*kp + i*ki + derivate()*kd;
 }
 
-bool calculateErr()
+bool PID::calculateErr()
 {
 	err=desVal-actVal;
 	return true;
 }
 
-bool autoKSet()
+bool PID::autoKSet()
 {
 	return false;
 }
 
-DOUBLE derivate()
+DOUBLE PID::derivate()
 {
 	static DOUBLE prevVal;
 	DOUBLE derivate{actVal-prevVal};

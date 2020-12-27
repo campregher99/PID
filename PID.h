@@ -1,5 +1,5 @@
 #ifndef PID_H
-#define PID_H 
+#define PID_H
 #ifndef DOUBLE
 #define DOUBLE double
 #endif
@@ -7,19 +7,19 @@
 class PID
 {
 private:
-	DOUBLE kp;
-	DOUBLE ki;
-	DOUBLE kd;
-	DOUBLE err;
-	DOUBLE i;
-	DOUBLE desVal;
-	DOUBLE actVal;
-	unsigned int division;
+	DOUBLE kp{0};
+	DOUBLE ki{0};
+	DOUBLE kd{0};
+	DOUBLE err{0};
+	DOUBLE i{0};
+	DOUBLE desVal{0};
+	DOUBLE actVal{0};
+	unsigned int division{0};
 public:
 	PID() = default;
 	PID(const DOUBLE& _kp, const DOUBLE& _ki = 0, const DOUBLE& _kd = 0);
 	~PID()=default;
-	
+
 	DOUBLE getKp() const;
 	DOUBLE getKi() const;
 	DOUBLE getKd() const;
