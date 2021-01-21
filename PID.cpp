@@ -110,9 +110,43 @@ bool PID::resetI()
 	return true;
 }
 
-DOUBLE PID::generatePWM()
+bool PID::generatePWM()
 {
-	return err*kp + i*ki + derivate()*kd;
+	static DOUBLE pwm {0};
+	static unsigned int step {0};
+	switch (step)
+	{
+		case 1:
+			timer->setTimeMicros(period * pwm);
+			timer->startCount();
+			uscita->setOutput(1);
+		break;
+		case 2:
+			calculateErr();
+		break;
+		case 3:
+			i+=err;
+		break;
+		case 4:
+			if(!timer->isPassed())
+			{
+				step--;
+			} else
+			{
+				uscita->setOutput(0);
+				timer->setTimeMicros(period * (1 - pwm));
+				timer->startCount();
+			}
+		break;
+		case 5:
+			pwm = err*kp + i*ki + derivate()*kd;
+		break;
+		case 6:
+			if(timer->isPassed())
+				step = 0;
+		break;
+	}
+	step++;
 }
 
 bool PID::calculateErr()

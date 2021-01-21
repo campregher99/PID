@@ -1,9 +1,11 @@
 #ifndef PID_H
+
 #define PID_H
-#ifndef DOUBLE
 #define DOUBLE double
-#endif
+
 #include "Double.h"
+#include "OutputArduino.h"
+#include "TimerArduino.h"
 class PID
 {
 private:
@@ -15,6 +17,9 @@ private:
 	DOUBLE desVal{0};
 	DOUBLE actVal{0};
 	unsigned int division{0};
+	Output* uscita = new OutputArduino;
+	Timer* timer = new TimerArduino;
+	unsigned long int period{0};
 public:
 	PID() = default;
 	PID(const DOUBLE& _kp, const DOUBLE& _ki = 0, const DOUBLE& _kd = 0);
@@ -28,6 +33,8 @@ public:
 	DOUBLE getDesVal() const;
 	DOUBLE getActVal() const;
 	unsigned int getDivision() const;
+	unsigned long int getPeriod() const;
+
 	bool setKp(const DOUBLE& _kp);
 	bool setKi(const DOUBLE& _ki);
 	bool setKd(const DOUBLE& _kd);
@@ -36,12 +43,15 @@ public:
 	bool setDesVal(const DOUBLE& _desVal);
 	bool setActVal(const DOUBLE& _actVal);
 	bool setDivision(const unsigned int& _division);
+	bool setPeriod(const unsigned long int& _period);
 	bool resetErr();
 	bool resetI();
-	virtual DOUBLE generatePWM();
-	virtual bool calculateErr();
-	virtual bool autoKSet();
-	virtual DOUBLE derivate();
+	bool generatePWM();
+	bool calculateErr();
+	bool autoKSet();
+	DOUBLE derivate();
+	bool setStep(unsigned int& _step);
+	unsigned int getStep();
 };
 
 #endif
